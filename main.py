@@ -40,7 +40,8 @@ def download_unzip_file(url):
 
     r = requests.get(url)
     z = zipfile.ZipFile(io.BytesIO(r.content))
-    for file in ['config.h', 'keymap.c', 'rules.mk']:
+    # for file in ['config.h', 'keymap.c', 'rules.mk']:
+    for file in ['keymap.c', 'rules.mk']:
         with open(dest.decode('utf-8') + '/' + file, 'wb') as f:
             f.write(z.read('moonlander_silvio_source/' + file))
     z.close()
