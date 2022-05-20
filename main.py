@@ -58,17 +58,26 @@ def append_code():
         cont = f.read()
         back_to_0 = 'layer_move(0); return false;'
         back_to_3 = 'layer_move(3); return false;'
+        #insert mode I/O/A
         cont = append_after_line(cont, "SEND_STRING(SS_TAP(X_RIGHT));", back_to_0)
         cont = append_after_line(cont, "SEND_STRING(SS_TAP(X_END) SS_DELAY(100) SS_TAP(X_ENTER));", back_to_0)
+        #del functions D/E/B
         cont = append_after_line(cont,
          "SEND_STRING(SS_TAP(X_HOME) SS_DELAY(100) SS_LSFT(SS_TAP(X_END)) SS_DELAY(100) SS_TAP(X_DELETE) SS_DELAY(100) SS_TAP(X_DELETE));",
           back_to_3)
+        cont = append_after_line(cont, "SEND_STRING(SS_LCTL(SS_TAP(X_DELETE)));", back_to_3)
+        cont = append_after_line(cont, "SEND_STRING(SS_LCTL(SS_TAP(X_BSPACE)));", back_to_3)
+        #change functions
+        cont = append_after_line(cont, "SEND_STRING(SS_RCTL(SS_TAP(X_DELETE)));", back_to_0)
+        cont = append_after_line(cont, "SEND_STRING(SS_RCTL(SS_TAP(X_BSPACE)));", back_to_0)
+                
+
         f.seek(0)
         f.write(cont)
 
 
 def flash():
-    command = b'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\QMK_MSYS\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; pwd; ls ; source ~/.env ; QMK_VERBOSE=True qmk flash -kb moonlander -km default)"'''
+    command = b'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\QMK_MSYS\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; qmk flash -kb moonlander -km default)"'''
     os.system(command.decode('utf8'))
 
 url = get_url_with_graphql()
