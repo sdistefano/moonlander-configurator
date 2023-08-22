@@ -11,7 +11,7 @@ def get_url_with_graphql():
     client = Client(transport=transport)
     query = gql('''
         query getLayout($hashId: String!, $revisionId: String!, $geometry: String) {
-  Layout(hashId: $hashId, geometry: $geometry, revisionId: $revisionId) {
+  layout(hashId: $hashId, geometry: $geometry, revisionId: $revisionId) {
     revision {
         zipUrl
     }
@@ -27,7 +27,7 @@ def get_url_with_graphql():
 
     result = client.execute(query, variable_values=variables)
 
-    return result['Layout']['revision']['zipUrl']
+    return result['layout']['revision']['zipUrl']
 
 def download_unzip_file(url):
     """ download and unzip a file """
