@@ -36,7 +36,7 @@ def download_unzip_file(url):
     import io
     import os
 
-    dest = b"C:\Users\sdist\qmk_firmware\keyboards\moonlander\keymaps\default"
+    dest = b"C:\Users\sdist\qmk_firmware\keyboards\moonlander\keymaps\oryx"
 
     r = requests.get(url)
     z = zipfile.ZipFile(io.BytesIO(r.content))
@@ -54,7 +54,7 @@ def append_after_line(content, line, append):
     return "\n".join([content[:index], line, append, content[index+len(line):]])
 
 def append_code():
-    with(open(b'C:\Users\sdist\qmk_firmware\keyboards\moonlander\keymaps\default\keymap.c', 'r+')) as f:
+    with(open(b'C:\Users\sdist\qmk_firmware\keyboards\moonlander\keymaps\oryx\keymap.c', 'r+')) as f:
         cont = f.read()
         back_to_0 = 'layer_move(0); return false;'
         back_to_3 = 'layer_move(3); return false;'
@@ -77,7 +77,7 @@ def append_code():
 
 
 def flash():
-    command = b'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\QMK_MSYS\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; qmk flash -kb moonlander -km default)"'''
+    command = b'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\QMK_MSYS\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; qmk flash -kb moonlander -km oryx)"'''
     os.system(command.decode('utf8'))
 
 url = get_url_with_graphql()
