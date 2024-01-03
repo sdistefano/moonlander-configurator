@@ -2,9 +2,15 @@
     "configurations": [
         {
             "type": "python",
-            "name": "Python configuration",
+            "name": "moonlander",
             "file": "main.py",
-            "arguments": [],
+            "arguments": ["moonlander"],
+        },
+        {
+            "type": "python",
+            "name": "voyager",
+            "file": "main.py",
+            "arguments": ["voyager"],
         },
         
     ]

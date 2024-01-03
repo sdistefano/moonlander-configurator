@@ -1,9 +1,15 @@
 import os
+import sys
+
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 
-def get_url_with_graphql():
+def get_url_with_graphql(keyboard):
     """ run graphql query against an url """
+    hashId = {
+        "moonlander": "nj4xD",
+        "voyager": "RgpMl"
+    }[keyboard]
     url = "https://oryx.zsa.io/graphql"
     params = {}
     #run graphql query against url
@@ -20,8 +26,8 @@ def get_url_with_graphql():
 }
     ''')
     variables = {
-    "hashId": "nj4xD",
-    "geometry": "moonlander",
+    "hashId": hashId,
+    "geometry": keyboard,
     "revisionId": "latest"
     }
 
@@ -80,7 +86,14 @@ def flash():
     command = b'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\QMK_MSYS\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; qmk flash -kb moonlander -km oryx)"'''
     os.system(command.decode('utf8'))
 
-url = get_url_with_graphql()
-download_unzip_file(url)
-append_code()
-flash()
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        raise Exception("Which keyboard?")
+    keyboard = sys.argv[1]
+
+    url = get_url_with_graphql(keyboard)
+    download_unzip_file(url)
+    if keyboard == "moonlander":
+        append_code()
+    flash()
