@@ -9,7 +9,7 @@ def get_url_with_graphql(keyboard):
     """ run graphql query against an url """
     hashId = {
         "moonlander": "nj4xD",
-        "voyager": "RgpMl"
+        "voyager": "qBEqz"
     }[keyboard]
     url = "https://oryx.zsa.io/graphql"
     params = {}
@@ -44,7 +44,7 @@ def download_unzip_file(url):
     import io
     import os
     dir_name = {
-        "voyager": "voyager_silvio-voyager-no-numbers_source",
+        "voyager": "voyager_silvio-voyager_source",
         "moonlander": "moonlander_silvio_source"
         }[keyboard]
 
@@ -93,6 +93,19 @@ def flash():
     command = f'''C:\QMK_MSYS\conemu\ConEmu64.exe -NoSingle -NoUpdate -run "C:\\QMK_MSYS\\usr/bin/bash" --login -c "(cd /c/Users/sdist/qmk_firmware/ ; qmk flash -kb {keyboard} -km oryx)"'''
     os.system(command)
 
+def fix_steno():
+    with(open(f'C:\\Users\\sdist\\qmk_firmware\\keyboards\\{keyboard}\\keymaps\\oryx\\config.h', 'r+')) as f:
+        cont = f.read()
+        cont = "\n".join([cont, '\n#define STENO_COMBINEDMAP 1'])
+        f.seek(0)
+        f.write(cont)
+    with(open(f'C:\\Users\\sdist\\qmk_firmware\\keyboards\\{keyboard}\\keymaps\\oryx\\keymap.c', 'r+')) as f:
+        cont = f.read()
+        cont = cont.replace('STN_NC', 'STN_EU')
+        f.seek(0)
+        f.write(cont)
+
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -103,4 +116,6 @@ if __name__ == "__main__":
     download_unzip_file(url)
     if keyboard == "moonlander":
         append_code()
+    if keyboard == "voyager":
+        fix_steno()
     flash()
